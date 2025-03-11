@@ -1,8 +1,13 @@
+import { Sequelize } from "sequelize";
 import db from "../sequelize.js";
 
-export const createUserQuery = ({ email, firstname, lastname, password }) => {
-  const createUser = db.prepare(
-    "INSERT INTO t_Users (Email, FirstName, LastName, HashPassword) VALUES(?, ?, ?, ?)"
+export const createUserQuery = async (email, firstname, lastname, password) => {
+  const createUser = db.query(
+    "INSERT INTO t_Users (Email, FirstName, LastName, HashPassword) VALUES(?, ?, ?, ?)",
+    {
+      replacements: [email, firstname, lastname, password],
+      type: Sequelize.QueryTypes.INSERT,
+    }
   );
-  createUser.run(email, firstname, lastname, password);
+  //   createUser.run(email, firstname, lastname, password);
 };
